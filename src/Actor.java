@@ -1,9 +1,9 @@
 public interface Actor {
-    static String getName() {
-        return "Aarron";
+    default String getName() {
+        return "Ben";
     }
 
-    static int geSpeed() {
+    default int geSpeed() {
         return 20;
     }
 }

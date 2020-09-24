@@ -9,12 +9,11 @@ public class TurnManagerTests {
     }
 
     @Test
-    public void canCreateSimpleActor(){
-        SimpleActor actor = new SimpleActor();
-//        String expectedName = "Ben";
-//        int expectedSpeed = 15;
-//        assertEquals(expectedName, Actor.getName());
-//        assertEquals(expectedSpeed, Actor.geSpeed());
+    public void canReturnCorrectNameAndSpeedOfActor(){
+        SimpleActor actor = new SimpleActor("Ben", 20);
+        assertEquals("Ben", actor.getName());
+        assertEquals(20, actor.geSpeed());
     }
+
 
 }
