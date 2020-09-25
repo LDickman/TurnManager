@@ -25,21 +25,26 @@ public class TurnManager {
                 nextActorTurns = actor;
             }
         }
-//        if (nextActorTurns == null) {
-//            for (Actor actor : actorTurns.keySet()){
-//                int turn = actorTurns.get(actor) + actor.getSpeed();
-//                actorTurns.replace(actor, actorTurns.get(actor), turn);
-//            }
-//            return nextTurn();
-//        }
-//        else{
-//            return nextActorTurns;
-//        }
-        return nextActorTurns;
+        if (actorTurns.get(nextActorTurns) <= 100) {
+            for (Actor actor : actorTurns.keySet()){
+                int turn = actorTurns.get(actor) + actor.getSpeed();
+                actorTurns.replace(actor, actorTurns.get(actor), turn);
+            }
+            return nextTurn();
+        }
+        else{
+            return nextActorTurns;
+        }
     }
 
-//    public String printTurnMeters() {
-//    }
+    public String printTurnMeters() {
+        String listOfActors = "";
+        for (Actor actor : actorTurns.keySet()) {
+            listOfActors += String.format("%-6s %-2s\n", actor.getName(), actor.getSpeed());
+        }
+        return listOfActors;
+    }
+
 
     static class InvalidActorSpeed extends RuntimeException{
 

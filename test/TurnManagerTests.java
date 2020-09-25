@@ -71,6 +71,50 @@ public class TurnManagerTests {
         assertEquals(robert, next);
     }
 
+    @Test
+    public void multipleActorsInNextTurnReturnsActorWithHighestSpeedAndTurnMeters() {
+        TurnManager manager = new TurnManager();
+        Actor Jim = new SimpleActor("Jim", 40);
+        Actor Lily = new SimpleActor("Lily", 77);
+        Actor Bobby = new SimpleActor("Bobby", 9);
 
+        manager.add(Jim);
+        manager.add(Bobby);
+        manager.add(Lily);
+
+        Actor next = manager.nextTurn();
+        assertEquals(Lily, next);
+    }
+
+    @Test
+    public void multipleActorsWithTheSameHighestSpeedAndTurnMeters_OrderDoesNotMatter() {
+        TurnManager manager = new TurnManager();
+        Actor kevin = new SimpleActor("Kevin", 50);
+        Actor henry = new SimpleActor("Henry", 50);
+        Actor mary = new SimpleActor("Mary", 50);
+        Actor jocab = new SimpleActor("Jocab", 50);
+
+       // manager.add(mary);
+        manager.add(kevin);
+        manager.add(henry);
+        manager.add(jocab);
+
+        Actor next = manager.nextTurn();
+        assertEquals(kevin, next);
+    }
+
+    @Test
+    public void printingNamesAndSpeedOfAllActors(){
+        TurnManager manager = new TurnManager();
+        Actor Jim = new SimpleActor("Jim", 40);
+        Actor Lily = new SimpleActor("Lily", 77);
+        Actor Bobby = new SimpleActor("Bobby", 9);
+
+        manager.add(Jim);
+        manager.add(Bobby);
+        manager.add(Lily);
+
+        assertEquals("Bobby  9 \nLily   77\nJim    40\n", manager.printTurnMeters());
+    }
 
 }
