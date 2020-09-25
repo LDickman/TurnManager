@@ -9,21 +9,33 @@ public class TurnManagerTests {
     }
 
     @Test
-    public void canReturnCorrectNameAndSpeedOfActor(){
-        Actor actor = new SimpleActor("Ben", 20);
-        Actor actor2 = new SimpleActor("Annie", 12);
-        assertEquals("Ben", actor.getName());
-        assertEquals(20, actor.geSpeed());
+    public void canAddActorToManager() {
+        TurnManager manager = new TurnManager();
+        Actor actor = new SimpleActor("George", 13);
+        Actor actor2 = new SimpleActor("George", 15);
+        manager.add(actor);
+        assertEquals(1, manager.actorTurns.size());
+        manager.add(actor2);
+        assertEquals(2, manager.actorTurns.size());
+    }
 
-        assertEquals("Annie", actor2.getName());
-        assertEquals(12, actor2.geSpeed());
+    @Test (expected = TurnManager.InvalidActorSpeed.class)
+    public void throwsExceptionOnNegativeSpeedActor() {
+        TurnManager manager = new TurnManager();
+        Actor actor = new SimpleActor("Bob", -7);
+        manager.add(actor);
     }
 
     @Test
-    public void simpleActorsCanEqualThemselves() {
-        Actor actor = new SimpleActor("Ben", 20);
-        Actor actor2 = new SimpleActor("Ben", 20);
-        assertEquals(actor, actor2);
+    public void cannotAddTwoEquivalentActors() {
+        TurnManager manager = new TurnManager();
+        Actor actor = new SimpleActor("Bob", 27);
+        Actor actor2 = new SimpleActor("Bob", 27);
+        manager.add(actor);
+        manager.add(actor2);
+        assertEquals(1, manager.actorTurns.size());
     }
+
+
 
 }

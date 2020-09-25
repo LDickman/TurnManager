@@ -15,7 +15,7 @@ public class SimpleActor implements Actor{
     }
 
     @Override
-    public int geSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
@@ -24,7 +24,7 @@ public class SimpleActor implements Actor{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Actor other = (SimpleActor) o;
-        return other.getName().equals(name) && other.geSpeed() == speed;
+        return other.getName().equals(name) && other.getSpeed() == speed;
     }
 
     @Override
