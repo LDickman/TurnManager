@@ -36,6 +36,13 @@ public class TurnManagerTests {
         assertEquals(1, manager.actorTurns.size());
     }
 
-
+    @Test
+    public void canRemoveActors() {
+        TurnManager manager = new TurnManager();
+        Actor actor = new SimpleActor("Fred", 17);
+        manager.add(actor);
+        manager.remove(actor);
+        assertEquals(0, manager.actorTurns.size());
+    }
 
 }

@@ -12,6 +12,10 @@ public class TurnManager {
         }
     }
 
+    public void remove(Actor actor) {
+        actorTurns.remove(actor);
+    }
+
 //    public String printTurnMeters() {
 //    }
 
