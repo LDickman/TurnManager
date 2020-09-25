@@ -1,9 +1,7 @@
 public interface Actor {
-    default String getName() {
-        return "Ben";
-    }
+    String getName();
+    int geSpeed();
 
-    default int geSpeed() {
-        return 20;
-    }
+
 }
+
