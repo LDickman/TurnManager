@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class TurnManagerTests {
@@ -44,5 +46,31 @@ public class TurnManagerTests {
         manager.remove(actor);
         assertEquals(0, manager.actorTurns.size());
     }
+
+    @Test
+    public void canMoveToNextTurn() {
+        TurnManager manager = new TurnManager();
+        Actor actor = new SimpleActor("Fred", 13);
+        manager.add(actor);
+        Actor next = manager.nextTurn();
+        assertEquals(actor, next);
+    }
+
+    @Test
+    public void multipleActorsInNextTurnReturnsActorWithHighestSpeed() {
+        TurnManager manager = new TurnManager();
+        Actor tim = new SimpleActor("Tim", 4);
+        Actor robert = new SimpleActor("Robert", 30);
+        Actor bob = new SimpleActor("Bob", 16);
+        
+        manager.add(tim);
+        manager.add(bob);
+        manager.add(robert);
+
+        Actor next = manager.nextTurn();
+        assertEquals(robert, next);
+    }
+
+
 
 }

@@ -31,4 +31,12 @@ public class SimpleActor implements Actor{
     public int hashCode() {
         return Objects.hash(name, speed);
     }
+
+    @Override
+    public String toString() {
+        return "SimpleActor{" +
+                "name='" + name + '\'' +
+                ", speed=" + speed +
+                '}';
+    }
 }
