@@ -17,7 +17,11 @@ public class TurnManager {
     }
 
     public Actor nextTurn() {
-        Actor nextActorTurns = null;
+        Actor nextActorTurns = getHighestValue(null);
+        return increaseBySpeedAndReturnHighestValue(nextActorTurns);
+    }
+
+    private Actor getHighestValue(Actor nextActorTurns) {
         for (Actor actor : actorTurns.keySet()){
             if (nextActorTurns == null) {
                 nextActorTurns = actor;
@@ -25,10 +29,13 @@ public class TurnManager {
                 nextActorTurns = actor;
             }
         }
+        return nextActorTurns;
+    }
+
+    private Actor increaseBySpeedAndReturnHighestValue(Actor nextActorTurns) {
         if (actorTurns.get(nextActorTurns) <= 100) {
             for (Actor actor : actorTurns.keySet()){
-                int turn = actorTurns.get(actor) + actor.getSpeed();
-                actorTurns.replace(actor, actorTurns.get(actor), turn);
+                actorTurns.replace(actor, actorTurns.get(actor), actorTurns.get(actor) + actor.getSpeed());
             }
             return nextTurn();
         }
@@ -39,14 +46,23 @@ public class TurnManager {
     }
 
     public String printTurnMeters() {
-        Comparator<? super Actor> compare = (Comparator<Actor>) (a1, a2) -> {return actorTurns.get(a2) - actorTurns.get(a1); };
-        Actor[] arr = actorTurns.keySet().toArray(new Actor[0]);
-        Arrays.sort(arr, compare);
-        String listOfActors = "";
-        for (Actor actor : arr) {
-            listOfActors += String.format("%-" + getLengthOfLongestName() + "s   Turn meter: %2s   Speed: %2s\n", actor.getName(), actorTurns.get(actor), actor.getSpeed());
+        Actor[] actorsArray = getSortedActors();
+        String printedActors = "";
+        for (Actor actor : actorsArray) {
+            printedActors += getLine(actor);
         }
-        return listOfActors;
+        return printedActors;
+    }
+
+    private String getLine(Actor actor) {
+        return String.format("%-" + getLengthOfLongestName() + "s   Turn meter: %2s   Speed: %2s\n", actor.getName(), actorTurns.get(actor), actor.getSpeed());
+    }
+
+    private Actor[] getSortedActors() {
+        Comparator<? super Actor> compare = (Comparator<Actor>) (a1, a2) -> {return actorTurns.get(a2) - actorTurns.get(a1); };
+        Actor[] actorsArray = actorTurns.keySet().toArray(new Actor[0]);
+        Arrays.sort(actorsArray, compare);
+        return actorsArray;
     }
 
     private int getLengthOfLongestName() {
@@ -57,7 +73,5 @@ public class TurnManager {
     }
 
 
-    static class InvalidActorSpeed extends RuntimeException{
-
-    }
+    static class InvalidActorSpeed extends RuntimeException{}
 }
