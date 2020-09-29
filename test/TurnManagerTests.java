@@ -1,6 +1,8 @@
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -88,20 +90,53 @@ public class TurnManagerTests {
     }
 
     @Test
+    public void withMultipleActorsNextTurnResetsTheChosenActorsMeterToZero() {
+        TurnManager manager = new TurnManager();
+        Actor Jim = new SimpleActor("Jim", 40);
+        Actor Lily = new SimpleActor("Lily", 77);
+        Actor Bobby = new SimpleActor("Bobby", 9);
+
+        manager.add(Jim);
+        manager.add(Bobby);
+        manager.add(Lily);
+        Actor next = manager.nextTurn();
+
+        assertEquals(Integer.valueOf(0), manager.actorTurns.get(next));
+    }
+
+    @Test
+    public void withMultipleActorsAndMultipleCallsToNextTurnItReturnsCorrectActor() {
+        TurnManager manager = new TurnManager();
+        Actor Jim = new SimpleActor("Jim", 40);
+        Actor Lily = new SimpleActor("Lily", 77);
+        Actor Bobby = new SimpleActor("Bobby", 9);
+
+        manager.add(Jim);
+        manager.add(Bobby);
+        manager.add(Lily);
+        manager.nextTurn();
+        Actor next = manager.nextTurn();
+
+        assertEquals(Jim, next);
+    }
+
+    @Test
     public void multipleActorsWithTheSameHighestSpeedAndTurnMeters_OrderDoesNotMatter() {
         TurnManager manager = new TurnManager();
         Actor kevin = new SimpleActor("Kevin", 50);
         Actor henry = new SimpleActor("Henry", 50);
         Actor mary = new SimpleActor("Mary", 50);
-        Actor jocab = new SimpleActor("Jocab", 50);
+        Actor jacob = new SimpleActor("Jacob", 50);
 
-       // manager.add(mary);
+        manager.add(mary);
         manager.add(kevin);
         manager.add(henry);
-        manager.add(jocab);
+        manager.add(jacob);
 
         Actor next = manager.nextTurn();
-        assertEquals(kevin, next);
+        Actor[] actors = {kevin, mary, henry, jacob};
+        boolean contains = Arrays.asList(actors).contains(next);
+        assertEquals(true, contains);
     }
 
     @Test
@@ -110,7 +145,7 @@ public class TurnManagerTests {
         Actor Jim = new SimpleActor("Jim", 40);
         Actor Lily = new SimpleActor("Lily", 77);
         Actor Bobby = new SimpleActor("Bobby", 9);
-        Actor Will = new SimpleActor("William II of Murica", 3);
+        Actor Will = new SimpleActor("William II", 3);
 
         manager.add(Jim);
         manager.add(Bobby);
@@ -118,8 +153,11 @@ public class TurnManagerTests {
         manager.add(Will);
         manager.nextTurn();
 
-        String expected = String.format("%-20s %2s\n%-20s %2s\n%-20s %2s\n%-20s %2s\n", Lily.getName(), Lily.getSpeed()
-                , Jim.getName(), Jim.getSpeed(), Bobby.getName(), Bobby.getSpeed(), Will.getName(), Will.getSpeed());
+        String expected =
+                "Jim          Turn meter: 80   Speed: 40\n" +
+                "Bobby        Turn meter: 18   Speed:  9\n" +
+                "William II   Turn meter:  6   Speed:  3\n" +
+                "Lily         Turn meter:  0   Speed: 77\n";
         assertEquals(expected, manager.printTurnMeters());
     }
 

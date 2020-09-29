@@ -33,17 +33,18 @@ public class TurnManager {
             return nextTurn();
         }
         else{
+            actorTurns.replace(nextActorTurns, 0);
             return nextActorTurns;
         }
     }
 
     public String printTurnMeters() {
-        Comparator<? super Actor> compare = (Comparator<Actor>) (a1, a2) -> {return a2.getSpeed() - a1.getSpeed(); };
+        Comparator<? super Actor> compare = (Comparator<Actor>) (a1, a2) -> {return actorTurns.get(a2) - actorTurns.get(a1); };
         Actor[] arr = actorTurns.keySet().toArray(new Actor[0]);
         Arrays.sort(arr, compare);
         String listOfActors = "";
         for (Actor actor : arr) {
-            listOfActors += String.format("%-" + getLengthOfLongestName() + "s %2s\n", actor.getName(), actor.getSpeed());
+            listOfActors += String.format("%-" + getLengthOfLongestName() + "s   Turn meter: %2s   Speed: %2s\n", actor.getName(), actorTurns.get(actor), actor.getSpeed());
         }
         return listOfActors;
     }
