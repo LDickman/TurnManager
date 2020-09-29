@@ -1,3 +1,4 @@
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -104,17 +105,22 @@ public class TurnManagerTests {
     }
 
     @Test
-    public void printingNamesAndSpeedOfAllActors(){
+    public void printingNamesIsInOrderOfTurnMeterAndAlignedToLongestName() {
         TurnManager manager = new TurnManager();
         Actor Jim = new SimpleActor("Jim", 40);
         Actor Lily = new SimpleActor("Lily", 77);
         Actor Bobby = new SimpleActor("Bobby", 9);
+        Actor Will = new SimpleActor("William II of Murica", 3);
 
         manager.add(Jim);
         manager.add(Bobby);
         manager.add(Lily);
+        manager.add(Will);
+        manager.nextTurn();
 
-        assertEquals("Bobby  9 \nLily   77\nJim    40\n", manager.printTurnMeters());
+        String expected = String.format("%-20s %2s\n%-20s %2s\n%-20s %2s\n%-20s %2s\n", Lily.getName(), Lily.getSpeed()
+                , Jim.getName(), Jim.getSpeed(), Bobby.getName(), Bobby.getSpeed(), Will.getName(), Will.getSpeed());
+        assertEquals(expected, manager.printTurnMeters());
     }
 
 }
