@@ -8,32 +8,29 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class TurnManagerTests {
-    @Test
-    public void canCreateManager(){
-        TurnManager manager = new TurnManager();
-    }
+
+    private TurnManager manager = new TurnManager();
+
 
     @Test
     public void canAddActorToManager() {
-        TurnManager manager = new TurnManager();
         Actor actor = new SimpleActor("George", 13);
         Actor actor2 = new SimpleActor("George", 15);
+        int expected = 1;
         manager.add(actor);
-        assertEquals(1, manager.actorTurns.size());
+        assertEquals(expected, manager.actorTurns.size());
         manager.add(actor2);
         assertEquals(2, manager.actorTurns.size());
     }
 
     @Test (expected = TurnManager.InvalidActorSpeed.class)
     public void throwsExceptionOnNegativeSpeedActor() {
-        TurnManager manager = new TurnManager();
         Actor actor = new SimpleActor("Bob", -7);
         manager.add(actor);
     }
 
     @Test
     public void cannotAddTwoEquivalentActors() {
-        TurnManager manager = new TurnManager();
         Actor actor = new SimpleActor("Bob", 27);
         Actor actor2 = new SimpleActor("Bob", 27);
         manager.add(actor);
@@ -43,7 +40,6 @@ public class TurnManagerTests {
 
     @Test
     public void canRemoveActors() {
-        TurnManager manager = new TurnManager();
         Actor actor = new SimpleActor("Fred", 17);
         manager.add(actor);
         manager.remove(actor);
@@ -52,7 +48,6 @@ public class TurnManagerTests {
 
     @Test
     public void canMoveToNextTurn() {
-        TurnManager manager = new TurnManager();
         Actor actor = new SimpleActor("Fred", 13);
         manager.add(actor);
         Actor next = manager.nextTurn();
@@ -61,7 +56,6 @@ public class TurnManagerTests {
 
     @Test
     public void multipleActorsInNextTurnReturnsActorWithHighestSpeed() {
-        TurnManager manager = new TurnManager();
         Actor tim = new SimpleActor("Tim", 4);
         Actor robert = new SimpleActor("Robert", 30);
         Actor bob = new SimpleActor("Bob", 16);
@@ -76,7 +70,6 @@ public class TurnManagerTests {
 
     @Test
     public void multipleActorsInNextTurnReturnsActorWithHighestSpeedAndTurnMeters() {
-        TurnManager manager = new TurnManager();
         Actor Jim = new SimpleActor("Jim", 40);
         Actor Lily = new SimpleActor("Lily", 77);
         Actor Bobby = new SimpleActor("Bobby", 9);
@@ -91,7 +84,6 @@ public class TurnManagerTests {
 
     @Test
     public void withMultipleActorsNextTurnResetsTheChosenActorsMeterToZero() {
-        TurnManager manager = new TurnManager();
         Actor Jim = new SimpleActor("Jim", 40);
         Actor Lily = new SimpleActor("Lily", 77);
         Actor Bobby = new SimpleActor("Bobby", 9);
@@ -106,7 +98,6 @@ public class TurnManagerTests {
 
     @Test
     public void withMultipleActorsAndMultipleCallsToNextTurnItReturnsCorrectActor() {
-        TurnManager manager = new TurnManager();
         Actor Jim = new SimpleActor("Jim", 40);
         Actor Lily = new SimpleActor("Lily", 77);
         Actor Bobby = new SimpleActor("Bobby", 9);
@@ -122,7 +113,6 @@ public class TurnManagerTests {
 
     @Test
     public void multipleActorsWithTheSameHighestSpeedAndTurnMeters_OrderDoesNotMatter() {
-        TurnManager manager = new TurnManager();
         Actor kevin = new SimpleActor("Kevin", 50);
         Actor henry = new SimpleActor("Henry", 50);
         Actor mary = new SimpleActor("Mary", 50);
@@ -141,7 +131,6 @@ public class TurnManagerTests {
 
     @Test
     public void printingNamesIsInOrderOfTurnMeterAndAlignedToLongestName() {
-        TurnManager manager = new TurnManager();
         Actor Jim = new SimpleActor("Jim", 40);
         Actor Lily = new SimpleActor("Lily", 77);
         Actor Bobby = new SimpleActor("Bobby", 9);
