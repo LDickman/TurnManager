@@ -63,15 +63,15 @@ public class TurnManagerTests {
 
     @Test
     public void multipleActorsInNextTurnReturnsActorWithHighestSpeedAndTurnMeters() {
-        Actor Jim = new SimpleActor("Jim", 40);
-        Actor Lily = new SimpleActor("Lily", 77);
-        Actor Bobby = new SimpleActor("Bobby", 9);
+        Actor Kyle = new SimpleActor("Kyle", 34);
+        Actor Amy = new SimpleActor("Amy", 87);
+        Actor Sam = new SimpleActor("Sam", 10);
 
-        manager.add(Jim);
-        manager.add(Bobby);
-        manager.add(Lily);
+        manager.add(Kyle);
+        manager.add(Sam);
+        manager.add(Amy);
 
-        assertWhichActorIsNext(Lily);
+        assertWhichActorIsNext(Amy);
     }
 
     @Test
