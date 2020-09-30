@@ -8,19 +8,14 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class TurnManagerTests {
-
     private TurnManager manager = new TurnManager();
-
 
     @Test
     public void canAddActorToManager() {
         Actor actor = new SimpleActor("George", 13);
-        Actor actor2 = new SimpleActor("George", 15);
-        int expected = 1;
-        manager.add(actor);
-        assertEquals(expected, manager.actorTurns.size());
-        manager.add(actor2);
-        assertEquals(2, manager.actorTurns.size());
+        Actor actor2 = new SimpleActor("Lee", 15);
+        assertSizeOfMapAfterAddingActors(1, actor);
+        assertSizeOfMapAfterAddingActors(2, actor2);
     }
 
     @Test (expected = TurnManager.InvalidActorSpeed.class)
@@ -34,8 +29,7 @@ public class TurnManagerTests {
         Actor actor = new SimpleActor("Bob", 27);
         Actor actor2 = new SimpleActor("Bob", 27);
         manager.add(actor);
-        manager.add(actor2);
-        assertEquals(1, manager.actorTurns.size());
+        assertSizeOfMapAfterAddingActors(1, actor2);
     }
 
     @Test
@@ -50,9 +44,9 @@ public class TurnManagerTests {
     public void canMoveToNextTurn() {
         Actor actor = new SimpleActor("Fred", 13);
         manager.add(actor);
-        Actor next = manager.nextTurn();
-        assertEquals(actor, next);
+        assertWhichActorIsNext(actor);
     }
+
 
     @Test
     public void multipleActorsInNextTurnReturnsActorWithHighestSpeed() {
@@ -64,8 +58,7 @@ public class TurnManagerTests {
         manager.add(bob);
         manager.add(robert);
 
-        Actor next = manager.nextTurn();
-        assertEquals(robert, next);
+        assertWhichActorIsNext(robert);
     }
 
     @Test
@@ -78,8 +71,7 @@ public class TurnManagerTests {
         manager.add(Bobby);
         manager.add(Lily);
 
-        Actor next = manager.nextTurn();
-        assertEquals(Lily, next);
+        assertWhichActorIsNext(Lily);
     }
 
     @Test
@@ -91,9 +83,8 @@ public class TurnManagerTests {
         manager.add(Jim);
         manager.add(Bobby);
         manager.add(Lily);
-        Actor next = manager.nextTurn();
 
-        assertEquals(Integer.valueOf(0), manager.actorTurns.get(next));
+        assertEquals(Integer.valueOf(0), manager.actorTurns.get(manager.nextTurn()));
     }
 
     @Test
@@ -106,9 +97,8 @@ public class TurnManagerTests {
         manager.add(Bobby);
         manager.add(Lily);
         manager.nextTurn();
-        Actor next = manager.nextTurn();
 
-        assertEquals(Jim, next);
+        assertWhichActorIsNext(Jim);
     }
 
     @Test
@@ -123,9 +113,8 @@ public class TurnManagerTests {
         manager.add(henry);
         manager.add(jacob);
 
-        Actor next = manager.nextTurn();
         Actor[] actors = {kevin, mary, henry, jacob};
-        boolean contains = Arrays.asList(actors).contains(next);
+        boolean contains = Arrays.asList(actors).contains(manager.nextTurn());
         assertEquals(true, contains);
     }
 
@@ -150,4 +139,11 @@ public class TurnManagerTests {
         assertEquals(expected, manager.printTurnMeters());
     }
 
+    private void assertSizeOfMapAfterAddingActors(int expected, Actor actor) {
+        manager.add(actor);
+        assertEquals(expected, manager.actorTurns.size());
+    }
+    private void assertWhichActorIsNext(Actor actor) {
+        assertEquals(actor, manager.nextTurn());
+    }
 }
